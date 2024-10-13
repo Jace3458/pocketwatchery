@@ -9,8 +9,8 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Pocketwatchery.MODID);
 
-    public static final DeferredItem<Item> POCKETWATCH_BASE = ITEMS.register(
-            "pocketwatch_base",
+    public static final DeferredItem<Item> POCKETWATCH_GROWTH = ITEMS.register(
+            "pocketwatch_growth",
             () -> new Item(new Item.Properties())
     );
 
