@@ -10,8 +10,8 @@
     }
   },
   "pattern": [
-    "TCT",
     "TTT",
+    "TCT",
     "TTT"
   ],
   "result": {
