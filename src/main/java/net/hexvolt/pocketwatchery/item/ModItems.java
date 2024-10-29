@@ -12,6 +12,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class ModItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(Pocketwatchery.MODID);
 
+    // Ingredients
     public static final DeferredItem<Item> TIME_GRAIN = ITEMS.registerSimpleItem("grain_of_time");
     public static final DeferredItem<Item> TIME_CRYSTAL = ITEMS.registerSimpleItem("time_crystal");
 
