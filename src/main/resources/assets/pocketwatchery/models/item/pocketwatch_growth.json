@@ -2,5 +2,13 @@
   "parent": "minecraft:item/generated",
   "textures": {
     "layer0": "pocketwatchery:item/pocketwatch_growth"
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "pocketwatchery:closed": 1.0
+      },
+      "model": "pocketwatchery:item/pocketwatch_growth_closed"
+    }
+  ]
 }

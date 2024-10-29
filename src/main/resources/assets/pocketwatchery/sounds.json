@@ -1,0 +1,22 @@
+{
+  "pocketwatch_open": {
+    "subtitle": "subtitles.pocketwatchery.pocketwatch_open",
+    "sounds": [
+      {
+        "name": "pocketwatchery:pocketwatch_open",
+        "volume": 0.3,
+        "pitch": 0.8
+      }
+    ]
+  },
+  "pocketwatch_close": {
+    "subtitle": "subtitles.pocketwatchery.pocketwatch_close",
+    "sounds": [
+      {
+        "name": "pocketwatchery:pocketwatch_close",
+        "volume": 0.8,
+        "pitch": 0.8
+      }
+    ]
+  }
+}

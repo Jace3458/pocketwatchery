@@ -1,0 +1,6 @@
+{
+  "parent": "pocketwatchery:item/pocketwatch_growth",
+  "textures": {
+    "layer0": "pocketwatchery:item/pocketwatch_growth_closed"
+  }
+}

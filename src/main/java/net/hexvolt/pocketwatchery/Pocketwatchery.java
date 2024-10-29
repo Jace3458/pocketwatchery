@@ -1,8 +1,10 @@
 package net.hexvolt.pocketwatchery;
 
+import net.hexvolt.pocketwatchery.item.custom.PocketwatchBaseItem;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import org.slf4j.Logger;
 
@@ -31,7 +33,7 @@ public class Pocketwatchery {
     // Define mod id in a common place for everything to reference
     public static final String MODID = "pocketwatchery";
     // Directly reference a slf4j logger
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
 
     // The constructor for the mod class is the first code that is run when your mod is loaded.
@@ -46,12 +48,18 @@ public class Pocketwatchery {
         NeoForge.EVENT_BUS.register(this);
 
         ModItems.register(modEventBus);
+        ModSounds.register(modEventBus);
 
         // Register the item to a creative tab
         modEventBus.addListener(this::addCreative);
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+
+
+        // hehe :innocent:
+        //noinspection deprecation (why?? its just a thing dont worry about it so much)
+        ItemProperties.registerGeneric(ResourceLocation.fromNamespaceAndPath(MODID, "closed"), PocketwatchBaseItem::predicatize);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {

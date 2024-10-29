@@ -4,5 +4,8 @@
   "item.pocketwatchery.pocketwatch_youth": "Youthful Pocketwatch",
 
   "item.pocketwatchery.grain_of_time": "Grain of Time",
-  "item.pocketwatchery.time_crystal": "Time Crystal"
+  "item.pocketwatchery.time_crystal": "Time Crystal",
+
+  "subtitles.pocketwatchery.pocketwatch_open": "Pocketwatch clicks open",
+  "subtitles.pocketwatchery.pocketwatch_close": "Pocketwatch clicks shut"
 }

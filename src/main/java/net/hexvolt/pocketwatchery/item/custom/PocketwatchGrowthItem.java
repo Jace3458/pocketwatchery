@@ -9,7 +9,6 @@ import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -22,11 +21,15 @@ import net.minecraft.world.level.gameevent.GameEvent;
 
 import javax.annotation.Nullable;
 
-public class PocketwatchGrowthItem extends Item {
+public class PocketwatchGrowthItem extends PocketwatchBaseItem {
     public PocketwatchGrowthItem(Properties properties) { super(properties); }
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
+//        if (!this.flippedOpen || (context.getPlayer() != null && context.getPlayer().isSecondaryUseActive())) {
+//            return AbstractPocketwatchItem.super.useOn(context);
+//        }
+
         Level level = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
         BlockPos offsetBlock = blockpos.relative(context.getClickedFace());
