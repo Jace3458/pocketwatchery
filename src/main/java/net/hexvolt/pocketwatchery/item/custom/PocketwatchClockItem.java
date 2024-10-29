@@ -15,11 +15,13 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class PocketwatchClockItem extends Item {
+public class PocketwatchClockItem extends PocketwatchBaseItem {
     public PocketwatchClockItem(Properties properties) { super(properties); }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+        if (!canUsePocketwatch(player, hand)) { return super.use(world, player, hand); }
+
         long tickTime = world.getDayTime();
         if (tickTime < 18000L) {
             tickTime = tickTime + 6000;
@@ -29,6 +31,10 @@ public class PocketwatchClockItem extends Item {
 
         String hours = String.format("%02d", tickTime / 1000);
         String minutes = String.format("%02.0f",  (tickTime % 1000) / 16.66666);
+        if (minutes.equals("60")) {
+            minutes = "59";
+        }
+
 
         // Change to open pocketwatch skin
         // Small delay

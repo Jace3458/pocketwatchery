@@ -20,15 +20,15 @@ public class ModItems {
     // Pocketwatches
     public static final DeferredItem<Item> POCKETWATCH_CLOCK = ITEMS.register(
             "pocketwatch_clock",
-            () -> new PocketwatchClockItem(new Item.Properties().stacksTo(1))
+            () -> new PocketwatchClockItem(new Item.Properties().stacksTo(1).durability(20))
     );
     public static final DeferredItem<Item> POCKETWATCH_GROWTH = ITEMS.register(
             "pocketwatch_growth",
-            () -> new PocketwatchGrowthItem(new Item.Properties().stacksTo(1))
+            () -> new PocketwatchGrowthItem(new Item.Properties().stacksTo(1).durability(80))
     );
     public static final DeferredItem<Item> POCKETWATCH_YOUTH = ITEMS.register(
             "pocketwatch_youth",
-            () -> new PocketwatchYouthItem(new Item.Properties().stacksTo(1))
+            () -> new PocketwatchYouthItem(new Item.Properties().stacksTo(1).durability(10))
     );
 
     public static void register(IEventBus eventBus) {

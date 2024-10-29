@@ -8,7 +8,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
@@ -22,31 +24,38 @@ import net.minecraft.world.level.gameevent.GameEvent;
 
 import javax.annotation.Nullable;
 
-public class PocketwatchGrowthItem extends Item {
+public class PocketwatchGrowthItem extends PocketwatchBaseItem {
     public PocketwatchGrowthItem(Properties properties) { super(properties); }
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
         Level level = context.getLevel();
+        Player player = context.getPlayer();
+        InteractionHand hand = context.getHand();
+
+        if (player == null || !canUsePocketwatch(player, hand)) { return InteractionResult.PASS; }
+
         BlockPos blockpos = context.getClickedPos();
         BlockPos offsetBlock = blockpos.relative(context.getClickedFace());
 
         if (applyGrowth(context.getItemInHand(), level, blockpos, context.getPlayer())) {
             if (!level.isClientSide) {
-                context.getPlayer().gameEvent(GameEvent.ITEM_INTERACT_FINISH);
+                player.gameEvent(GameEvent.ITEM_INTERACT_FINISH);
                 level.levelEvent(1505,blockpos,15);
             }
 
+            usePocketwatch(player, hand);
             return InteractionResult.sidedSuccess(level.isClientSide);
         } else {
             BlockState blockState = level.getBlockState(blockpos);
             boolean flag = blockState.isFaceSturdy(level, blockpos, context.getClickedFace());
             if (flag && applyWaterGrowth(level, offsetBlock, context.getClickedFace())) {
                 if (!level.isClientSide) {
-                    context.getPlayer().gameEvent(GameEvent.ITEM_INTERACT_FINISH);
+                    player.gameEvent(GameEvent.ITEM_INTERACT_FINISH);
                     level.levelEvent(1505, offsetBlock, 15);
                 }
 
+                usePocketwatch(player, hand);
                 return InteractionResult.sidedSuccess((level.isClientSide));
             } else {
                 return InteractionResult.PASS;
