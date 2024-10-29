@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "minecraft:bone"
+    },
+    "S": {
+      "tag": "minecraft:saplings"
+    },
+    "F": {
+      "tag": "minecraft:flowers"
+    },
+    "T": {
+      "item": "pocketwatchery:time_crystal"
+    }
+  },
+  "pattern": [
+    "BSB",
+    "FTF",
+    "BSB"
+  ],
+  "result": {
+    "count": 1,
+    "id": "pocketwatchery:pocketwatch_growth"
+  }
+}
