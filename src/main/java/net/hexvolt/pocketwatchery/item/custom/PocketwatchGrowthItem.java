@@ -1,5 +1,6 @@
 package net.hexvolt.pocketwatchery.item.custom;
 
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -11,7 +12,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -24,6 +24,7 @@ import net.minecraft.world.level.gameevent.GameEvent;
 
 import javax.annotation.Nullable;
 
+@MethodsReturnNonnullByDefault
 public class PocketwatchGrowthItem extends PocketwatchBaseItem {
     public PocketwatchGrowthItem(Properties properties) { super(properties); }
 
@@ -44,7 +45,7 @@ public class PocketwatchGrowthItem extends PocketwatchBaseItem {
                 level.levelEvent(1505,blockpos,15);
             }
 
-            usePocketwatch(player, hand);
+            consumeTime(player, hand);
             return InteractionResult.sidedSuccess(level.isClientSide);
         } else {
             BlockState blockState = level.getBlockState(blockpos);
@@ -55,7 +56,7 @@ public class PocketwatchGrowthItem extends PocketwatchBaseItem {
                     level.levelEvent(1505, offsetBlock, 15);
                 }
 
-                usePocketwatch(player, hand);
+                consumeTime(player, hand);
                 return InteractionResult.sidedSuccess((level.isClientSide));
             } else {
                 return InteractionResult.PASS;

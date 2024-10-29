@@ -3,13 +3,11 @@ package net.hexvolt.pocketwatchery.item.custom;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -20,8 +18,20 @@ public class PocketwatchClockItem extends PocketwatchBaseItem {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-        if (!canUsePocketwatch(player, hand)) { return super.use(world, player, hand); }
+        // special case for secondary use here because this is usable all the time everywhere
+        if (!canUsePocketwatch(player, hand) || player.isSecondaryUseActive()) {
+            return super.use(world, player, hand);
+        }
 
+        String message = getFormattedTime(world);
+        if (world.isClientSide) {
+            player.sendSystemMessage(Component.literal(message));
+        }
+        return super.use(world, player, hand);
+    }
+
+    @NotNull
+    private static String getFormattedTime(Level world) {
         long tickTime = world.getDayTime();
         if (tickTime < 18000L) {
             tickTime = tickTime + 6000;
@@ -41,10 +51,6 @@ public class PocketwatchClockItem extends PocketwatchBaseItem {
         // Print time
         // Close pocketwatch
 
-        String message = hours + ":" + minutes;
-        if (world.isClientSide) {
-            player.sendSystemMessage(Component.literal(message));
-        }
-        return super.use(world, player, hand);
+        return hours + ":" + minutes;
     }
 }

@@ -70,7 +70,7 @@ public class PocketwatchBaseItem extends Item {
 
     protected int getDurabilityUse() { return 1; }
 
-    protected void usePocketwatch(Player player, InteractionHand hand) {
+    protected void consumeTime(Player player, InteractionHand hand) {
         ItemStack pocketwatch = player.getItemInHand(hand);
         if (canUsePocketwatch(pocketwatch)) {
             pocketwatch.hurtAndBreak(getDurabilityUse(), player, LivingEntity.getSlotForHand(hand));
@@ -83,7 +83,7 @@ public class PocketwatchBaseItem extends Item {
     }
 
     public boolean canUsePocketwatch(ItemStack pocketwatch) {
-        return pocketwatch.getDamageValue() < pocketwatch.getMaxDamage() - 1;
+        return isOpen() && pocketwatch.getDamageValue() < pocketwatch.getMaxDamage() - 1;
     }
 
     public static float predicatize(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed) {

@@ -1,0 +1,6 @@
+{
+  "parent": "pocketwatchery:item/pocketwatch_youth",
+  "textures": {
+    "layer0": "pocketwatchery:item/pocketwatch_youth_closed"
+  }
+}
