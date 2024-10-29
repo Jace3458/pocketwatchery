@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "C": {
+      "item": "minecraft:clock"
+    },
+    "T": {
+      "item": "pocketwatchery:time_crystal"
+    }
+  },
+  "pattern": [
+    "CCC",
+    "CTC",
+    "CCC"
+  ],
+  "result": {
+    "count": 1,
+    "id": "pocketwatchery:pocketwatch_clock"
+  }
+}

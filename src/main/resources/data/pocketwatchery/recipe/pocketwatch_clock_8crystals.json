@@ -5,17 +5,17 @@
     "C": {
       "item": "minecraft:clock"
     },
-    "I": {
-      "item": "minecraft:iron_ingot"
+    "T": {
+      "item": "pocketwatchery:time_crystal"
     }
   },
   "pattern": [
-    " I ",
-    "ICI",
-    " I "
+    "TTT",
+    "TCT",
+    "TTT"
   ],
   "result": {
     "count": 1,
-    "id": "pocketwatchery:pocketwatch_growth"
+    "id": "pocketwatchery:pocketwatch_clock"
   }
 }

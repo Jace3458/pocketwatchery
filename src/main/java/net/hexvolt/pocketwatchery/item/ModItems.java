@@ -20,13 +20,15 @@ public class ModItems {
             Registries.DATA_COMPONENT_TYPE, Pocketwatchery.MODID
     );
 
+    // Open/Closed-ness
     public static final DeferredHolder<DataComponentType<?>, DataComponentType<PocketwatchBaseItem.PocketwatchClosedRecord>> POCKETWATCH_CLOSED_COMPONENT = COMPONENT_REGISTRAR.registerComponentType(
             "pocketwatch_closed",
             builder -> builder
                     .persistent(PocketwatchBaseItem.PocketwatchClosedRecord.CODEC)
                     .networkSynchronized(PocketwatchBaseItem.PocketwatchClosedRecord.STREAM_CODEC)
     );
-
+    
+    // Ingredients
     public static final DeferredItem<Item> TIME_GRAIN = ITEMS.registerSimpleItem("grain_of_time");
     public static final DeferredItem<Item> TIME_CRYSTAL = ITEMS.registerSimpleItem("time_crystal");
 
@@ -34,15 +36,15 @@ public class ModItems {
     // Pocketwatches
     public static final DeferredItem<Item> POCKETWATCH_CLOCK = ITEMS.register(
             "pocketwatch_clock",
-            () -> new PocketwatchClockItem(new Item.Properties())
+            () -> new PocketwatchClockItem(new Item.Properties().stacksTo(1).durability(20).component(POCKETWATCH_CLOSED_COMPONENT.value(), new PocketwatchBaseItem.PocketwatchClosedRecord(true)))
     );
     public static final DeferredItem<Item> POCKETWATCH_GROWTH = ITEMS.register(
             "pocketwatch_growth",
-            () -> new PocketwatchGrowthItem(new Item.Properties().component(POCKETWATCH_CLOSED_COMPONENT.value(), new PocketwatchBaseItem.PocketwatchClosedRecord(true)))
+            () -> new PocketwatchGrowthItem(new Item.Properties().stacksTo(1).durability(80).component(POCKETWATCH_CLOSED_COMPONENT.value(), new PocketwatchBaseItem.PocketwatchClosedRecord(true)))
     );
     public static final DeferredItem<Item> POCKETWATCH_YOUTH = ITEMS.register(
             "pocketwatch_youth",
-            () -> new PocketwatchYouthItem(new Item.Properties())
+            () -> new PocketwatchYouthItem(new Item.Properties().stacksTo(1).durability(10).component(POCKETWATCH_CLOSED_COMPONENT.value(), new PocketwatchBaseItem.PocketwatchClosedRecord(true)))
     );
 
     public static void register(IEventBus eventBus) {
