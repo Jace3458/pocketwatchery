@@ -77,9 +77,10 @@ public class Pocketwatchery {
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
-            event.insertAfter(Items.CLOCK.getDefaultInstance(), ModItems.POCKETWATCH_CLOCK.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-            event.insertAfter(Items.CLOCK.getDefaultInstance(), ModItems.POCKETWATCH_GROWTH.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
             event.insertAfter(Items.CLOCK.getDefaultInstance(), ModItems.POCKETWATCH_YOUTH.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.CLOCK.getDefaultInstance(), ModItems.POCKETWATCH_OVERCLOCK.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.CLOCK.getDefaultInstance(), ModItems.POCKETWATCH_GROWTH.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+            event.insertAfter(Items.CLOCK.getDefaultInstance(), ModItems.POCKETWATCH_CLOCK.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
 
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
