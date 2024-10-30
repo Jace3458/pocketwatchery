@@ -24,6 +24,7 @@ public class PocketwatchOverclockItem extends PocketwatchBaseItem {
         if (canUsePocketwatch(player, usedHand) && !level.isClientSide) {
             player.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 300, 0));
             player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 300, 1));
+            consumeTime(player, usedHand);
         }
         return super.use(level, player, usedHand);
     }
