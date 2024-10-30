@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "ingredients": [
+    {
+      "item": "pocketwatchery:pocketwatch_youth"
+    },
+    {
+      "item": "pocketwatchery:time_crystal"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "pocketwatchery:pocketwatch_youth"
+  }
+}
