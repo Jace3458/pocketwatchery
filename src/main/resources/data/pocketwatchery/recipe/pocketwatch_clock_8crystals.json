@@ -1,6 +1,7 @@
 {
   "type": "minecraft:crafting_shaped",
-  "category": "misc",
+  "category": "equipment",
+  "group": "pocketwatch_clock",
   "key": {
     "C": {
       "item": "minecraft:clock"

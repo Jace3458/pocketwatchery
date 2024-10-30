@@ -2,8 +2,14 @@
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "E": {
-      "item": "minecraft:egg"
+    "C": {
+      "item": "minecraft:cake"
+    },
+    "B": {
+      "item": "minecraft:blaze_powder"
+    },
+    "W": {
+      "item": "minecraft:nether_wart"
     },
     "S": {
       "item": "minecraft:sugar"
@@ -16,12 +22,12 @@
     }
   },
   "pattern": [
-    "ESE",
-    "GTG",
-    "ESE"
+    "CWC",
+    "BTS",
+    "CGC"
   ],
   "result": {
     "count": 1,
-    "id": "pocketwatchery:pocketwatch_youth"
+    "id": "pocketwatchery:pocketwatch_overclock"
   }
 }
