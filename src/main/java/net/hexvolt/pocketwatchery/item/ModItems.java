@@ -1,10 +1,7 @@
 package net.hexvolt.pocketwatchery.item;
 
 import net.hexvolt.pocketwatchery.Pocketwatchery;
-import net.hexvolt.pocketwatchery.item.custom.PocketwatchBaseItem;
-import net.hexvolt.pocketwatchery.item.custom.PocketwatchClockItem;
-import net.hexvolt.pocketwatchery.item.custom.PocketwatchGrowthItem;
-import net.hexvolt.pocketwatchery.item.custom.PocketwatchYouthItem;
+import net.hexvolt.pocketwatchery.item.custom.*;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.Item;
@@ -45,6 +42,10 @@ public class ModItems {
     public static final DeferredItem<Item> POCKETWATCH_YOUTH = ITEMS.register(
             "pocketwatch_youth",
             () -> new PocketwatchYouthItem(new Item.Properties().stacksTo(1).durability(10).component(POCKETWATCH_CLOSED_COMPONENT.value(), new PocketwatchBaseItem.PocketwatchClosedRecord(true)))
+    );
+    public static final DeferredItem<Item> POCKETWATCH_OVERCLOCK = ITEMS.register(
+            "pocketwatch_overclock",
+            () -> new PocketwatchOverclockItem(new Item.Properties().stacksTo(1).durability(100).component(POCKETWATCH_CLOSED_COMPONENT.value(), new PocketwatchBaseItem.PocketwatchClosedRecord(true)))
     );
 
     public static void register(IEventBus eventBus) {

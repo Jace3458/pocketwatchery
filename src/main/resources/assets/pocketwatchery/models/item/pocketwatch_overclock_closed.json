@@ -1,0 +1,6 @@
+{
+  "parent": "pocketwatchery:item/pocketwatch_overclock",
+  "textures": {
+    "layer0": "pocketwatchery:item/pocketwatch_overclock_closed"
+  }
+}
