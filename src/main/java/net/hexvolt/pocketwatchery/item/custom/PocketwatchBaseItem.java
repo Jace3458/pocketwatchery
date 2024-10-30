@@ -7,8 +7,6 @@ import net.hexvolt.pocketwatchery.ModSounds;
 import net.hexvolt.pocketwatchery.item.ModItems;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.core.component.DataComponentPatch;
-import net.minecraft.core.component.PatchedDataComponentMap;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.sounds.SoundSource;
@@ -26,32 +24,35 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class PocketwatchBaseItem extends Item {
-    private PatchedDataComponentMap patchedComponents;
 
     public PocketwatchBaseItem(Properties properties) {
         super(properties);
-        this.patchedComponents = PatchedDataComponentMap.fromPatch(components(), DataComponentPatch.EMPTY);
     }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
 
-        if (isOpen()) {
+        if (isOpen(player, usedHand)) {
             if (player.isSecondaryUseActive()) {
-                setOpen(level, player, false);
+                setOpen(level, player, usedHand, false);
             }
         } else {
-            setOpen(level, player, true);
+            setOpen(level, player, usedHand, true);
         }
 
         return super.use(level, player, usedHand);
     }
 
-    protected void setOpen(Level level, Player player, boolean newOpen) {
-        if (newOpen != isOpen()) {
+    protected void setOpen(Level level, Player player, InteractionHand usedHand, boolean newOpen) {
+        ItemStack heldItem = player.getItemInHand(usedHand);
+        if (!(heldItem.getItem() instanceof PocketwatchBaseItem)) {
+            return;
+        }
+
+        if (newOpen != isOpen(player.getItemInHand(usedHand))) {
             if (level.isClientSide) {
             } else {
-                patchedComponents.set(ModItems.POCKETWATCH_CLOSED_COMPONENT.get(), new PocketwatchClosedRecord(!newOpen));
+                heldItem.set(ModItems.POCKETWATCH_CLOSED_COMPONENT.get(), new PocketwatchClosedRecord(!newOpen));
                 level.playSound(
                         null,
                         player.getX(), player.getY(), player.getZ(),
@@ -63,8 +64,12 @@ public class PocketwatchBaseItem extends Item {
         }
     }
 
-    public boolean isOpen() {
-        PocketwatchClosedRecord closedRecord = patchedComponents.get(ModItems.POCKETWATCH_CLOSED_COMPONENT.get());
+    public static boolean isOpen(Player player, InteractionHand hand) {
+        return isOpen(player.getItemInHand(hand));
+    }
+
+    public static boolean isOpen(ItemStack stack) {
+        PocketwatchClosedRecord closedRecord = stack.get(ModItems.POCKETWATCH_CLOSED_COMPONENT.get());
         return !(closedRecord != null && closedRecord.closed);
     }
 
@@ -83,16 +88,12 @@ public class PocketwatchBaseItem extends Item {
     }
 
     public boolean canUsePocketwatch(ItemStack pocketwatch) {
-        return isOpen() && pocketwatch.getDamageValue() < pocketwatch.getMaxDamage() - 1;
+        return isOpen(pocketwatch) && pocketwatch.getDamageValue() < pocketwatch.getMaxDamage() - 1;
     }
 
     public static float predicatize(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed) {
-        if (stack.getItem() instanceof PocketwatchBaseItem pocketwatchItem) {
-            PocketwatchClosedRecord closedRecord = pocketwatchItem.patchedComponents.get(ModItems.POCKETWATCH_CLOSED_COMPONENT.get());
-            return closedRecord != null && closedRecord.closed ? 1.0f : 0.0f;
-        } else {
-            return 0.0f;
-        }
+        // needs to return 1 if closed
+        return !isOpen(stack) ? 1.0f : 0.0f;
     }
 
     public record PocketwatchClosedRecord(boolean closed) {
