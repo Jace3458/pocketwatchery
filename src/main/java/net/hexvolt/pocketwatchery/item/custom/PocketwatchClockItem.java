@@ -18,15 +18,16 @@ public class PocketwatchClockItem extends PocketwatchBaseItem {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-        // special case for secondary use here because this is usable all the time everywhere
-        if (!canUsePocketwatch(player, hand) || player.isSecondaryUseActive()) {
-            return super.use(world, player, hand);
+        if (canUsePocketwatch(player, hand)) {
+            String message = getFormattedTime(world);
+            if (world.isClientSide) {
+                player.sendSystemMessage(Component.literal(message));
+            }
+            if (!world.isClientSide) {
+                consumeTime(player, hand);
+            }
         }
 
-        String message = getFormattedTime(world);
-        if (world.isClientSide) {
-            player.sendSystemMessage(Component.literal(message));
-        }
         return super.use(world, player, hand);
     }
 
