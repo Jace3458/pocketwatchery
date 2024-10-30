@@ -1,17 +1,15 @@
 package net.hexvolt.pocketwatchery;
 
+import com.mojang.logging.LogUtils;
+import net.hexvolt.pocketwatchery.block.ModBlocks;
+import net.hexvolt.pocketwatchery.item.ModItems;
 import net.hexvolt.pocketwatchery.item.custom.PocketwatchBaseItem;
 import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Items;
-import org.slf4j.Logger;
-
-import com.mojang.logging.LogUtils;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -25,7 +23,7 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
-import net.hexvolt.pocketwatchery.item.ModItems;
+import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(Pocketwatchery.MODID)
@@ -48,6 +46,7 @@ public class Pocketwatchery {
         NeoForge.EVENT_BUS.register(this);
 
         ModItems.register(modEventBus);
+        ModBlocks.register(modEventBus);
         ModSounds.register(modEventBus);
 
         // Register the item to a creative tab
@@ -55,11 +54,6 @@ public class Pocketwatchery {
 
         // Register our mod's ModConfigSpec so that FML can create and load the config file for us
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
-
-
-        // hehe :innocent:
-        //noinspection deprecation (why?? its just a thing dont worry about it so much)
-        ItemProperties.registerGeneric(ResourceLocation.fromNamespaceAndPath(MODID, "closed"), PocketwatchBaseItem::predicatize);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -88,6 +82,10 @@ public class Pocketwatchery {
 
             event.insertAfter(ModItems.TIME_GRAIN.toStack(), ModItems.TIME_CRYSTAL.toStack(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         }
+
+        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS) {
+            event.accept(ModBlocks.TIME_SAND_BLOCK.toStack());
+        }
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call
@@ -102,9 +100,13 @@ public class Pocketwatchery {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+            event.enqueueWork(() -> {
+                //noinspection deprecation
+                ItemProperties.registerGeneric(
+                        ResourceLocation.fromNamespaceAndPath(MODID, "closed"),
+                        PocketwatchBaseItem::predicatize
+                );
+            });
         }
     }
 }
