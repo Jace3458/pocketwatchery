@@ -54,9 +54,9 @@ public class PocketwatchGrowthItem extends PocketwatchBaseItem {
                 if (!level.isClientSide) {
                     player.gameEvent(GameEvent.ITEM_INTERACT_FINISH);
                     level.levelEvent(1505, offsetBlock, 15);
+                    consumeTime(player, hand);
                 }
 
-                consumeTime(player, hand);
                 return InteractionResult.sidedSuccess((level.isClientSide));
             } else {
                 return InteractionResult.PASS;
@@ -64,24 +64,24 @@ public class PocketwatchGrowthItem extends PocketwatchBaseItem {
         }
     }
 
-    public static boolean applyGrowth(ItemStack itemStack, Level level, BlockPos blockPosition, @Nullable net.minecraft.world.entity.player.Player player) {
+    public static boolean applyGrowth(ItemStack itemStack, Level level, BlockPos blockPosition, Player player) {
         BlockState blockstate = level.getBlockState(blockPosition);
         var event = net.neoforged.neoforge.event.EventHooks.fireBonemealEvent(player, level, blockPosition, blockstate, itemStack);
         if (event.isCanceled()) return event.isSuccessful();
         if (blockstate.getBlock() instanceof BonemealableBlock bonemealableblock && bonemealableblock.isValidBonemealTarget(level, blockPosition, blockstate)) {
-            if (level instanceof ServerLevel) {
+            if (!level.isClientSide) {
                 if (bonemealableblock.isBonemealSuccess(level, level.random, blockPosition, blockstate)) {
                     bonemealableblock.performBonemeal((ServerLevel)level, level.random, blockPosition, blockstate);
                 }
+                return true;
             }
-            return true;
         }
         return false;
     }
 
     public static boolean applyWaterGrowth(Level level, BlockPos pos, @Nullable Direction clickedSide) {
         if (level.getBlockState(pos).is(Blocks.WATER) && level.getFluidState(pos).getAmount() == 8) {
-            if (!(level instanceof ServerLevel)) {
+            if (level.isClientSide) {
                 return true;
             } else {
                 RandomSource randomsource = level.getRandom();

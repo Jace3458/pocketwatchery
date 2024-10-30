@@ -31,15 +31,12 @@ public class PocketwatchBaseItem extends Item {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand usedHand) {
-
-        if (isOpen(player, usedHand)) {
-            if (player.isSecondaryUseActive()) {
-                setOpen(level, player, usedHand, false);
-            }
-        } else {
+        if (!isOpen(player, usedHand)) {
             setOpen(level, player, usedHand, true);
         }
-
+        else if (!player.isSecondaryUseActive()) {
+            setOpen(level, player, usedHand, false);
+        }
         return super.use(level, player, usedHand);
     }
 
@@ -77,18 +74,18 @@ public class PocketwatchBaseItem extends Item {
 
     protected void consumeTime(Player player, InteractionHand hand) {
         ItemStack pocketwatch = player.getItemInHand(hand);
-        if (canUsePocketwatch(pocketwatch)) {
+        if (canUsePocketwatch(player, hand)) {
             pocketwatch.hurtAndBreak(getDurabilityUse(), player, LivingEntity.getSlotForHand(hand));
         }
     }
 
-    public boolean canUsePocketwatch(Player player, InteractionHand usedHand) {
+    public static boolean canUsePocketwatch(Player player, InteractionHand usedHand) {
         ItemStack pocketwatch = player.getItemInHand(usedHand);
-        return canUsePocketwatch(pocketwatch);
+        return canUsePocketwatch(player, pocketwatch);
     }
 
-    public boolean canUsePocketwatch(ItemStack pocketwatch) {
-        return isOpen(pocketwatch) && pocketwatch.getDamageValue() < pocketwatch.getMaxDamage() - 1;
+    public static boolean canUsePocketwatch(Player player, ItemStack pocketwatch) {
+        return player.isSecondaryUseActive() && isOpen(pocketwatch) && pocketwatch.getDamageValue() < pocketwatch.getMaxDamage() - 1;
     }
 
     public static float predicatize(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity, int seed) {
